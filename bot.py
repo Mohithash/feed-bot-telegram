@@ -131,9 +131,9 @@ async def list_channels(_: types.Message):
             await client.get_input_entity(r.link))).title
         channels += f"'{channel_title}'" \
                     + ' ' \
-                    + f'[link]({r.link})' + '\n'
+                    + f'<a href="{r.link}">link</a>' + '\n'
 
-    await answer(channels or 'Channels list is empty')
+    await answer(channels or 'Channels list is empty', 'HTML')
 
 # endregion
 

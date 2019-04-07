@@ -4,11 +4,11 @@ from telethon.errors import RPCError
 from globals import client, bot, user_id
 
 
-async def answer(text: str):
+async def answer(text: str, parse_mode='Markdown'):
     await bot.send_message(user_id,
                            text,
                            disable_web_page_preview=True,
-                           parse_mode='Markdown')
+                           parse_mode=parse_mode)
 
 
 async def provide_client_connection():
