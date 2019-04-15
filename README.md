@@ -20,8 +20,9 @@ telegram id), you can get it, for example, by writing to [@userinfobot](https://
 It is recommended to use a second telegram account for bot. In that case you don't need to get api_id, api_hash for your 
 main account and your feed will have unread messages count.
 
-In case you use only one account, both for yourself and for bot, your feed won't have unread messages count. But there is an
-option to make bot mark feed as unread, when updates come. You can turn this option on by editing *configs.ini*.
+In case you use only one account, both for yourself and for bot, your feed won't have unread messages count and there 
+won't be any notifications for updates. But there is an option to make bot mark feed as unread, when updates come. 
+You can turn this option on by editing *configs.ini*.
 
 After that, you need to have python3 (>=3.7) installed to run the bot. You can google it, or use 
 [this](https://realpython.com/installing-python/) or [this](https://www.python.org/downloads/)
@@ -80,42 +81,43 @@ system. [google](https://www.google.com) may help to find that out.
 Start conversation with your feed bot. Bot will answer:
 
 ```
-/set <link> - set channel as feed to add channels to
-/now - display current feed
-/add <link> - add channel to current feed
-<link> - same as /add <link>
-/rm <link> - remove channel from feed
-/ls - list channels in feeds
-
-You can't add same channel to several feeds
-So you don't need to specify feed to remove channel
+Use /addfeed <link_to_channel> to add channel which will serve as your feed.
+Then send me a link to channel you want to add to your feed or use /add <link_to_channel>.
+You can add as many feeds and channels as you wish. Use /help for additional commands
 ```
-Create private channel to be used as feed. Then use */set* to set this channel as current feed for modifications.
+Create private channel which will serve as feed. Then use */addfeed* to add this channel as feed:
+
+![add feed example](https://user-images.githubusercontent.com/42914399/56163318-b4a71680-5fd6-11e9-9aed-1e081d2b64f3.png)
+
 Then send bot a link to a public channel you wish to add to feed or use */add*. For example:
 
-```
-https://t.me/durov
-```
-or:
+![add channel example1](https://user-images.githubusercontent.com/42914399/56162227-2c277680-5fd4-11e9-8d26-a366db538892.png)
+
+If you have added several feeds, you will be prompted to choose feed:
+
+![add channel example2](https://user-images.githubusercontent.com/42914399/56162468-c1c30600-5fd4-11e9-9426-2fbce45a9784.png)
+
+*/help* will show you all available commands:
 
 ```
-/add https://t.me/durov
+/addfeed <link> - add channel which will serve as feed
+/add <link> - add channel to feed
+<link> - same as /add <link>
+/rm - remove channel from feed
+/rmfeed - remove feed from database
+/ls - list feeds and channels of each feed
 ```
-If you use a separate telegram account for bot, you have to create channel to be used as feed from that account and add your 
-main telegram user to channel.
+If you use a separate telegram account for bot, you have to create channel which will serve as feed from that account and 
+add your main telegram user to this channel.
 
-You can use as many feeds as you like. Just create a new channel to be used as feed, use /set and add channels to it.
-
-If you want the list of commands to be shown the same way it happens with usual bot, write /setcommands to 
+If you want the list of commands to be shown the same way it happens with usual bots, write */setcommands* to 
 [@BotFather](https://t.me/BotFather). For example:
 ```
-start - start
-set - set
-add - add
-rm - rm
-ls - ls
-now - now
-help - help
+/addfeed - /addfeed
+/add - /add
+/rm - /rm
+/rmfeed - /rmfeed
+/ls - /ls
 ```
 
 ## License
