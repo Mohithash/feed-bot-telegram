@@ -95,7 +95,7 @@ Then send bot a link to a public channel you wish to add to feed or use */add*. 
 
 If you have added several feeds, you will be prompted to choose feed:
 
-![add channel example2](https://user-images.githubusercontent.com/42914399/56162468-c1c30600-5fd4-11e9-9426-2fbce45a9784.png)
+![add channel example2](https://user-images.githubusercontent.com/42914399/56192112-60338380-6036-11e9-9a32-4ed51aba1675.png)
 
 */help* will show you all available commands:
 
