@@ -1,17 +1,17 @@
+from html import escape
 from aiogram import Dispatcher
-from database import Database
-from broadcaster import Broadcaster
-
 from telethon.tl.types import Channel
 from telethon.errors import ChannelPrivateError, RPCError
 
-from globals import client, bot, dir_path
+from database import Database
+from broadcaster import Broadcaster
+from globals import client, bot, DIR_PATH
 from filters import *
 from utils import get_entity, answer, provide_client_connection, \
-    inline_feed_ls, inline_channel_ls, clean_query
+    inline_feed_ls, inline_channel_ls, clean_query, get_title
 
 dp = Dispatcher(bot)
-db = Database(dir_path + '/database.json')
+db = Database(DIR_PATH + '/database.json')
 bc = Broadcaster(db)
 db.subscribe(bc)
 
@@ -57,7 +57,7 @@ async def add_feed(_: types.Message, link: str):
         await answer('User account used by bot have to be creator of channel')
     else:
         db.add_feed(link)
-        feed_title = (await get_entity(link)).title
+        feed_title = await get_title(link)
         await answer(f"Successfully added '{feed_title}' to database")
 
 
@@ -116,12 +116,11 @@ async def list_channels(_: types.Message):
     await provide_client_connection()
     ch_list = ''
     for feed in db.feeds():
-        ch_list += f'<a href="{feed}">{(await get_entity(feed)).title}</a>'\
-                   + '\n'
+        title = escape(await get_title(feed))
+        ch_list += f'<a href="{feed}">{title}</a>\n'
         for channel in db[feed].keys():
-            ch_list += f'<b>--</b> <a href="{channel}">' \
-                           f'{(await get_entity(channel)).title}</a>' \
-                       + '\n'
+            title = escape(await get_title(channel))
+            ch_list += f'<b>--</b> <a href="{channel}">{title}</a>\n'
     await answer(ch_list or 'Feed list is empty', parse_mode='HTML')
 
 # endregion
@@ -164,8 +163,8 @@ async def rm_channel_step2_query(query: types.CallbackQuery, link: str):
 @dp.callback_query_handler(query_valid, query_remove_feed, query_feed_link)
 async def remove_feed_query(query: types.CallbackQuery, feed: str):
     db.remove_feed(feed)
-    title = (await get_entity(feed)).title
-    await query.answer(f"'{title}' successfully removed from database",
+    await query.answer(f"'{await get_title(feed)}' successfully removed from"
+                       f" database",
                        show_alert=True)
     await clean_query(query)
 
@@ -201,5 +200,5 @@ async def _add_channel(link: str,
     else:
         db.add_channel(link, msgs[0].id, feed)
         await answer(f'Successfully added channel to '
-                     f'{(await get_entity(feed)).title}',
+                     f'{await get_title(feed)}',
                      query)

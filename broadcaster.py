@@ -7,7 +7,7 @@ from telethon.tl.functions.messages import MarkDialogUnreadRequest
 
 from database import Database, Channel
 from utils import answer
-from globals import client, mark_as_unread
+from globals import client, MARK_AS_UNREAD
 
 
 class Broadcaster:
@@ -55,6 +55,7 @@ class Broadcaster:
         if msgs:
             try:
                 await client.forward_messages(ch.feed, msgs)
+            # TODO feed unreachable
             except ConnectionError:
                 await asyncio.sleep(60)
             except RPCError as e:
@@ -63,11 +64,13 @@ class Broadcaster:
                              f' [feed]({ch.feed}): '
                              + e.message
                              + '\nerror code ->'
-                             + str(e.code))
+                             + str(e.code)
+                             + '\nBot will sleep for 60 seconds')
+                await asyncio.sleep(60)
             else:
                 ch.last_id = msgs[-1].id
                 self._db.flush()
-            if mark_as_unread:
+            if MARK_AS_UNREAD:
                 await client(MarkDialogUnreadRequest(ch.feed, True))
         return await asyncio.sleep(len(msgs) or 1, ch)
 

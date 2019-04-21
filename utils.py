@@ -7,7 +7,7 @@ from aiogram.types import CallbackQuery
 from aiogram.types import InlineKeyboardButton as Button
 from aiogram.types import InlineKeyboardMarkup as Markup
 
-from globals import client, bot, user_id
+from globals import client, bot, USER_ID
 
 
 async def answer(text: str,
@@ -18,7 +18,7 @@ async def answer(text: str,
     if query:
         await query.answer(text, show_alert)
     else:
-        await bot.send_message(user_id,
+        await bot.send_message(USER_ID,
                                text,
                                disable_web_page_preview=True,
                                parse_mode=parse_mode,
@@ -56,11 +56,21 @@ provide_client_connection.sleep_ls = set()
 
 async def get_entity(link: str, type_=None):
     try:
-        channel = await client.get_entity(await client.get_input_entity(link))
+        entity = await client.get_input_entity(link)
+        entity = await client.get_entity(entity)
     except (ValueError, RPCError):
-        return None
-    if not type_ or isinstance(channel, type_):
-        return channel
+        # TODO handle RPCError properly
+        try:
+            entity = await client.get_entity(link)
+        except (ValueError, RPCError):
+            return None
+    if not type_ or isinstance(entity, type_):
+        return entity
+
+
+async def get_title(link: str):
+    channel = await get_entity(link)
+    return channel.title if channel else link
 
 
 async def inline_feed_ls(feeds, action: str):
@@ -68,7 +78,7 @@ async def inline_feed_ls(feeds, action: str):
         1,
         [
             [Button(f[0], callback_data=action + f[1])]
-            async for f in (((await get_entity(f)).title, f) for f in feeds)
+            async for f in ((await get_title(f), f) for f in feeds)
         ])
 
 
@@ -77,8 +87,7 @@ async def inline_channel_ls(channels, action: str):
         1,
         [
             [Button(ch[0], callback_data=action + ch[1])]
-            async for ch in
-            (((await get_entity(ch)).title, ch) for ch in channels)
+            async for ch in ((await get_title(ch), ch) for ch in channels)
         ])
 
 
