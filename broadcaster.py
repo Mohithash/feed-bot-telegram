@@ -60,12 +60,13 @@ class Broadcaster:
                 await asyncio.sleep(60)
             except RPCError as e:
                 await answer(f'RPCError occurred while forwarding messages'
-                             f' from [channel]({ch.link}) to'
-                             f' [feed]({ch.feed}): '
+                             f' from <a href="{ch.link}">channel</a> to'
+                             f' <a href="{ch.feed}">feed</a>: '
                              + e.message
-                             + '\nerror code ->'
+                             + '\nerror code: '
                              + str(e.code)
-                             + '\nBot will sleep for 60 seconds')
+                             + '\nBot will sleep for 60 seconds',
+                             parse_mode='HTML')
                 await asyncio.sleep(60)
             else:
                 ch.last_id = msgs[-1].id

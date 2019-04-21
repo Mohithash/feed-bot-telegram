@@ -1,6 +1,6 @@
 import re
 from aiogram import types
-from globals import user_id
+from globals import USER_ID
 
 # region InlineButton action types
 
@@ -12,13 +12,13 @@ REMOVE_FEED = '04'
 # endregion
 
 t_link = r'https?:\/\/(t(elegram)?\.me|telegram\.org)(\/joinchat)?' \
-         r'\/([a-z0-9\_]{5,32})'
+         r'\/([a-z0-9\_-]{5,32})'
 
 # region Message filters
 
 
 async def from_me(message: types.Message):
-    return message.from_user.id == user_id
+    return message.from_user.id == USER_ID
 
 
 async def not_command(message: types.Message):
@@ -38,7 +38,7 @@ async def channel_link(message: types.Message):
 
 
 async def query_valid(query: types.CallbackQuery):
-    return query.from_user.id == user_id and query.message
+    return query.from_user.id == USER_ID and query.message
 
 
 async def query_channel_link(query: types.CallbackQuery):
