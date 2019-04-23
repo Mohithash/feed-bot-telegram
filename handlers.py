@@ -36,7 +36,8 @@ async def help_(_: types.Message):
                  '<link> - same as /add <link>\n'
                  '/rm - remove channel from feed\n'
                  '/rmfeed - remove feed from database\n'
-                 '/ls - list feeds and channels of each feed')
+                 '/ls - list feeds and channels of each feed\n'
+                 '/help - list all commands')
 
 
 @dp.message_handler(from_me, channel_link, commands=['addfeed'])
