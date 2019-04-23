@@ -11,13 +11,23 @@ and you have to run bot yourself on your PC/VPS etc. Bot should work fine in mos
 
 ### Prerequisites
 
-First of all, you need three things: 1) your app api_id and api_hash for telegram account to be used by bot, you can get them 
-[here](https://my.telegram.org/apps); 2) your bot api token, you can get it by creating bot account using 
-[@BotFather](https://t.me/BotFather), BotFather will give you a link to your bot as well; 3) telegram id of your main 
-telegram account (feed bot will only respond to messages  that come from this telegram account, i.e. that have this 
-telegram id), you can get it, for example, by writing to [@userinfobot](https://t.me/userinfobot) bot.
+First of all, you need three things: 
 
-It is recommended to use a second telegram account for bot. In that case you don't need to get api_id, api_hash for your 
+1. Your app api_id and api_hash for telegram account to be used by bot, you can get them 
+[here](https://my.telegram.org/apps). 
+
+Fill the form like this:
+
+![app creation](https://user-images.githubusercontent.com/42914399/56583917-59cb7b80-65e3-11e9-91ff-99d6031b944c.png)
+
+2. Your bot api token, you can get it by creating bot account using [@BotFather](https://t.me/BotFather), 
+BotFather will give you a link to your bot as well. 
+
+3. Telegram id of your main telegram account (feed bot will only respond to messages  that come from this 
+telegram account, i.e. that have this telegram id), you can get it, for example, by writing to 
+[@userinfobot](https://t.me/userinfobot) bot.
+
+It is recommended to use a second telegram account for bot. In this case you don't need to get api_id, api_hash for your 
 main account and your feed will have unread messages count.
 
 In case you use only one account, both for yourself and for bot, your feed won't have unread messages count and there 
@@ -106,6 +116,7 @@ If you have added several feeds, you will be prompted to choose feed:
 /rm - remove channel from feed
 /rmfeed - remove feed from database
 /ls - list feeds and channels of each feed
+/help - list all commands
 ```
 If you use a separate telegram account for bot, you have to create channel which will serve as feed from that account and 
 add your main telegram user to this channel.
@@ -118,6 +129,7 @@ If you want the list of commands to be shown the same way it happens with usual 
 /rm - /rm
 /rmfeed - /rmfeed
 /ls - /ls
+/help - /help
 ```
 
 ## License
